@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Lansiersweg 8 — ons plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --green:#1f4d3a; --green-2:#2c6a50; --sand:#f6f1e7; --card:#ffffff;
+    --ink:#23271f; --muted:#6b7163; --terra:#c8643c; --line:#e6ddcd;
+    --ok:#2c6a50; --shadow:0 10px 30px rgba(31,77,58,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--sand);color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.15;margin:0}
+  a{color:var(--terra)}
+
+  /* HERO */
+  header.hero{background:linear-gradient(160deg,var(--green),var(--green-2));color:#fff;
+    padding:54px 0 64px;position:relative;overflow:hidden}
+  .hero .wrap{position:relative;z-index:1}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 14px;border-radius:999px;
+    font-size:13px;font-weight:600;letter-spacing:.2px;margin-bottom:18px}
+  .hero h1{font-size:clamp(38px,8vw,68px);color:#fff;letter-spacing:-.5px}
+  .hero .addr{font-size:18px;color:rgba(255,255,255,.85);margin-top:6px}
+  .countdown{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+  .cd-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+    border-radius:14px;padding:14px 20px;min-width:78px;text-align:center}
+  .cd-box b{display:block;font-family:Fraunces,serif;font-size:30px;line-height:1}
+  .cd-box span{font-size:12px;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.6px}
+  .cd-note{margin-top:12px;font-size:13px;color:rgba(255,255,255,.75)}
+
+  /* SECTIONS */
+  section{padding:40px 0}
+  .eyebrow{color:var(--terra);font-weight:600;font-size:13px;letter-spacing:1.4px;
+    text-transform:uppercase;margin-bottom:6px}
+  section h2{font-size:clamp(24px,4vw,32px);margin-bottom:22px}
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+  .fact{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:16px;box-shadow:var(--shadow)}
+  .fact .ic{font-size:22px}
+  .fact .lbl{color:var(--muted);font-size:12.5px;margin-top:8px}
+  .fact .val{font-weight:600;font-size:16px;margin-top:2px}
+  .badgeA{display:inline-block;background:#1f9d57;color:#fff;font-weight:700;
+    padding:1px 9px;border-radius:6px}
+
+  /* TIMELINE */
+  .tl{position:relative;margin-left:8px;padding-left:26px;border-left:2px solid var(--line)}
+  .tl .step{position:relative;padding:0 0 24px}
+  .tl .step::before{content:"";position:absolute;left:-34px;top:2px;width:14px;height:14px;
+    border-radius:50%;background:#fff;border:3px solid var(--line)}
+  .tl .step.done::before{background:var(--ok);border-color:var(--ok)}
+  .tl .step.active::before{background:var(--terra);border-color:var(--terra);
+    box-shadow:0 0 0 5px rgba(200,100,60,.18)}
+  .tl .when{font-size:12.5px;color:var(--terra);font-weight:600;letter-spacing:.3px}
+  .tl .step h3{font-size:17px;margin:2px 0 3px}
+  .tl .step p{margin:0;color:var(--muted);font-size:14px}
+
+  /* TASKS */
+  .tasks{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:8px 6px;box-shadow:var(--shadow)}
+  .task{display:flex;gap:13px;align-items:flex-start;padding:13px 14px;border-radius:10px;cursor:pointer}
+  .task+.task{border-top:1px solid var(--line)}
+  .task:hover{background:#faf7f0}
+  .task input{appearance:none;width:21px;height:21px;border:2px solid var(--line);
+    border-radius:6px;margin:1px 0 0;flex:none;cursor:pointer;transition:.15s;position:relative}
+  .task input:checked{background:var(--ok);border-color:var(--ok)}
+  .task input:checked::after{content:"✓";color:#fff;position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .task label{cursor:pointer;font-size:15px}
+  .task input:checked ~ label{color:var(--muted);text-decoration:line-through}
+  .progress{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin:0 0 18px}
+  .progress > i{display:block;height:100%;width:0;background:var(--green-2);transition:width .3s}
+  .progress-txt{font-size:13px;color:var(--muted);margin-bottom:8px}
+
+  .note-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .ncard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;
+    box-shadow:var(--shadow)}
+  .ncard h3{font-size:15px;font-family:Inter,sans-serif;font-weight:600;margin-bottom:4px}
+  .ncard p{margin:0;color:var(--muted);font-size:13.5px}
+
+  footer{padding:34px 0 50px;color:var(--muted);font-size:13px;text-align:center;
+    border-top:1px solid var(--line);margin-top:20px}
+  .lock{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:5px 13px;font-size:12.5px;color:var(--muted);margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="pill">🎉 Winnend bod uitgebracht</span>
+    <h1>Lansiersweg&nbsp;8</h1>
+    <div class="addr">3907 ZE Veenendaal · twee-onder-één-kap</div>
+    <div class="countdown" id="countdown" aria-label="Aftellen naar overdracht"></div>
+    <div class="cd-note">Geschatte overdracht: <strong>februari 2027</strong></div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">De woning</div>
+    <h2>Kerngegevens</h2>
+    <div class="facts">
+      <div class="fact"><div class="ic">🏡</div><div class="lbl">Type</div><div class="val">2-onder-1-kap</div></div>
+      <div class="fact"><div class="ic">📐</div><div class="lbl">Woonoppervlak</div><div class="val">142 m²</div></div>
+      <div class="fact"><div class="ic">🧱</div><div class="lbl">Bouwjaar</div><div class="val">2004</div></div>
+      <div class="fact"><div class="ic">⚡</div><div class="lbl">Energielabel</div><div class="val"><span class="badgeA">A</span></div></div>
+      <div class="fact"><div class="ic">☀️</div><div class="lbl">Zonnepanelen</div><div class="val">11 stuks · 4400 Wp</div></div>
+      <div class="fact"><div class="ic">🔥</div><div class="lbl">Verwarming</div><div class="val">HR-107 (2021)</div></div>
+      <div class="fact"><div class="ic">❄️</div><div class="lbl">Koeling</div><div class="val">Airco aanwezig</div></div>
+      <div class="fact"><div class="ic">🔌</div><div class="lbl">Laadpaal</div><div class="val">Bij de voordeur</div></div>
+      <div class="fact"><div class="ic">🌐</div><div class="lbl">Internet</div><div class="val">Glasvezel</div></div>
+      <div class="fact"><div class="ic">🚗</div><div class="lbl">Extra</div><div class="val">Garage / berging</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow">Het pad ernaartoe</div>
+    <h2>Tijdlijn naar de overdracht</h2>
+    <div class="tl">
+      <div class="step done"><div class="when">JUNI 2026 · GEDAAN</div><h3>Bod gewonnen 🎉</h3><p>Winnend bod uitgebracht op Lansiersweg 8.</p></div>
+      <div class="step done"><div class="when">JUNI 2026 · GEDAAN</div><h3>Concept koopovereenkomst ontvangen</h3><p>Van de verkopend makelaar (Van Ginkel &amp; Van Bemmelen).</p></div>
+      <div class="step active"><div class="when">JUNI 2026 · NU BEZIG</div><h3>Hypotheek definitief maken</h3><p>Met de adviseur — vóórdat we de koopovereenkomst tekenen.</p></div>
+      <div class="step"><div class="when">JUNI 2026</div><h3>Koopovereenkomst tekenen</h3><p>Daarna 3 dagen wettelijke bedenktijd. Eventueel bouwkundige keuring.</p></div>
+      <div class="step"><div class="when">ZOMER / NAJAAR 2026</div><h3>Ons eigen huis verkopen</h3><p>Via makelaar Van Es — overdracht afstemmen op februari 2027.</p></div>
+      <div class="step"><div class="when">NAJAAR 2026 – BEGIN 2027</div><h3>Financiering afronden &amp; notaris</h3><p>Taxatie, definitieve offerte, conceptakte controleren.</p></div>
+      <div class="step"><div class="when">~ FEBRUARI 2027</div><h3>Overdracht &amp; sleutel 🔑</h3><p>Eindinspectie en de sleutel van ons nieuwe huis.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Aan de slag</div>
+    <h2>Onze takenlijst</h2>
+    <div class="progress-txt" id="progressTxt">0 van 0 afgerond</div>
+    <div class="progress"><i id="progressBar"></i></div>
+    <div class="tasks" id="tasks">
+      <div class="task"><input type="checkbox" id="t1" checked><label for="t1">Bod uitbrengen op Lansiersweg 8</label></div>
+      <div class="task"><input type="checkbox" id="t2" checked><label for="t2">Concept koopovereenkomst ontvangen &amp; doorlezen</label></div>
+      <div class="task"><input type="checkbox" id="t3"><label for="t3">Hypotheek definitief rondmaken met de adviseur</label></div>
+      <div class="task"><input type="checkbox" id="t4"><label for="t4">Koopovereenkomst tekenen (let op: 3 dagen bedenktijd)</label></div>
+      <div class="task"><input type="checkbox" id="t5"><label for="t5">Bouwkundige keuring laten uitvoeren</label></div>
+      <div class="task"><input type="checkbox" id="t6"><label for="t6">Waarborgsom / bankgarantie regelen</label></div>
+      <div class="task"><input type="checkbox" id="t7"><label for="t7">Taxatie nieuwe woning laten doen</label></div>
+      <div class="task"><input type="checkbox" id="t8"><label for="t8">Eigen huis in de verkoop zetten (makelaar Van Es)</label></div>
+      <div class="task"><input type="checkbox" id="t9"><label for="t9">Notaris kiezen</label></div>
+      <div class="task"><input type="checkbox" id="t10"><label for="t10">Opstal- &amp; inboedelverzekering regelen</label></div>
+      <div class="task"><input type="checkbox" id="t11"><label for="t11">Eindinspectie &amp; sleuteloverdracht</label></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="eyebrow">Nog uitzoeken</div>
+    <h2>Aandachtspunten</h2>
+    <div class="note-cards">
+      <div class="ncard"><h3>🔥 CV-ketel (Intergas, 2021)</h3><p>Onderhoudscontract/garantie van Breman overnemen?</p></div>
+      <div class="ncard"><h3>☀️ Zonnepanelen (2023)</h3><p>Inloggegevens mySolarEdge-app en fabrieksgarantie checken.</p></div>
+      <div class="ncard"><h3>🔌 Laadpaal e-auto</h3><p>"Nader overeen te komen" — blijft die achter, en tegen welke prijs?</p></div>
+      <div class="ncard"><h3>🕳️ Kruipruimte</h3><p>Toegankelijk en droog? Luik laten openen.</p></div>
+      <div class="ncard"><h3>🧰 Garagedak</h3><p>Is het geïsoleerd? (stond als onbekend in de vragenlijst)</p></div>
+      <div class="ncard"><h3>📏 Kadastrale grens</h3><p>Bij nr. 8 loopt een voorlopige grens — is die definitief vastgesteld?</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="lock">🔒 Privé planning-hub — geen officiële woningadvertentie</span>
+    <div>Gemaakt voor Wilco &amp; Vera · gegevens uit het energielabel en de woninginformatie.</div>
+    <div id="updated" style="margin-top:6px"></div>
+  </div>
+</footer>
+
+<script>
+  // Aftellen naar geschatte overdracht
+  (function(){
+    var target = new Date('2027-02-01T00:00:00');
+    var el = document.getElementById('countdown');
+    function tick(){
+      var now = new Date();
+      var diff = Math.max(0, target - now);
+      var d = Math.floor(diff/86400000);
+      var w = Math.floor(d/7);
+      var m = Math.floor(d/30.44);
+      el.innerHTML =
+        '<div class="cd-box"><b>'+d+'</b><span>dagen</span></div>'+
+        '<div class="cd-box"><b>'+w+'</b><span>weken</span></div>'+
+        '<div class="cd-box"><b>~'+m+'</b><span>maanden</span></div>';
+    }
+    tick(); setInterval(tick, 3600000);
+  })();
+
+  // Takenlijst onthouden in deze browser
+  (function(){
+    var boxes = document.querySelectorAll('#tasks input[type=checkbox]');
+    var bar = document.getElementById('progressBar');
+    var txt = document.getElementById('progressTxt');
+    function update(){
+      var done = 0;
+      boxes.forEach(function(b){ if(b.checked) done++; });
+      var pct = Math.round(done/boxes.length*100);
+      bar.style.width = pct+'%';
+      txt.textContent = done+' van '+boxes.length+' afgerond ('+pct+'%)';
+    }
+    boxes.forEach(function(b){
+      var saved = localStorage.getItem('lw8_'+b.id);
+      if(saved !== null) b.checked = (saved === '1');
+      b.addEventListener('change', function(){
+        localStorage.setItem('lw8_'+b.id, b.checked ? '1':'0');
+        update();
+      });
+    });
+    update();
+  })();
+
+  document.getElementById('updated').textContent =
+    'Laatst geopend: ' + new Date().toLocaleDateString('nl-NL', {day:'numeric',month:'long',year:'numeric'});
+</script>
+</body>
+</html>
