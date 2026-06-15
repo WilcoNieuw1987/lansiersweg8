@@ -65,6 +65,15 @@
   .tl .step.active::before{background:var(--terra);border-color:var(--terra);box-shadow:0 0 0 5px rgba(200,100,60,.18)}
   .tl .when{font-size:12.5px;color:var(--terra);font-weight:600}
   .tl .step h3{font-size:17px;margin:2px 0 3px}.tl .step p{margin:0;color:var(--muted);font-size:14px}
+  .tl .step details{margin-top:9px;background:#faf7f0;border:1px solid var(--line);border-radius:10px}
+  .tl .step summary{cursor:pointer;padding:9px 12px;font-weight:600;font-size:13.5px;color:var(--green);list-style:none}
+  .tl .step summary::-webkit-details-marker{display:none}
+  .tl .step summary::before{content:"▸ ";color:var(--terra)}
+  .tl .step details[open] summary::before{content:"▾ "}
+  .tl .step details .body{padding:0 14px 12px}
+  .tl .step details ul{margin:4px 0;padding-left:18px}
+  .tl .step details li{margin:5px 0;font-size:13.5px;color:var(--ink)}
+  .tl .step .warn{background:#fcf0e9;border:1px solid #eccbbb;color:#8a3c25;border-radius:8px;padding:9px 11px;font-size:13px;margin:9px 0 2px}
 
   .tasks{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 6px;box-shadow:var(--shadow)}
   .task{display:flex;gap:13px;align-items:flex-start;padding:13px 14px;border-radius:10px;cursor:pointer}
@@ -174,13 +183,72 @@
   <section class="tab" id="tab-tijdlijn">
     <div class="eyebrow">Het pad ernaartoe</div><h2>Tijdlijn naar de overdracht</h2>
     <div class="tl">
-      <div class="step done"><div class="when">JUNI 2026 · GEDAAN</div><h3>Bod gewonnen 🎉</h3><p>Winnend bod uitgebracht op Lansiersweg 8.</p></div>
-      <div class="step done"><div class="when">JUNI 2026 · GEDAAN</div><h3>Concept koopovereenkomst ontvangen</h3><p>Van makelaar Van Ginkel &amp; Van Bemmelen.</p></div>
-      <div class="step active"><div class="when">JUNI 2026 · NU BEZIG</div><h3>Hypotheek definitief maken</h3><p>Met de adviseur — vóór het tekenen van de koopovereenkomst.</p></div>
-      <div class="step"><div class="when">JUNI 2026</div><h3>Koopovereenkomst tekenen</h3><p>Daarna 3 dagen wettelijke bedenktijd; eventueel bouwkundige keuring.</p></div>
-      <div class="step"><div class="when">ZOMER / NAJAAR 2026</div><h3>Ons eigen huis verkopen</h3><p>Via makelaar Van Es — overdracht afstemmen op februari 2027.</p></div>
-      <div class="step"><div class="when">NAJAAR 2026 – BEGIN 2027</div><h3>Financiering afronden &amp; notaris</h3><p>Taxatie, definitieve offerte, conceptakte controleren.</p></div>
-      <div class="step"><div class="when">~ FEBRUARI 2027</div><h3>Overdracht &amp; sleutel 🔑</h3><p>Eindinspectie en de sleutel van ons nieuwe huis.</p></div>
+      <div class="step done"><div class="when">GEDAAN</div><h3>Bod gewonnen 🎉</h3><p>Winnend bod uitgebracht op Lansiersweg 8.</p></div>
+
+      <div class="step done"><div class="when">GEDAAN</div><h3>Concept koopovereenkomst ontvangen</h3><p>Van makelaar Van Ginkel &amp; Van Bemmelen.</p>
+        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li>Download de concept-akte (link + wachtwoord staan in de mail van de makelaar).</li>
+          <li>Lees vooral: koopsom, leverdatum, ontbindende voorwaarden, waarborgsom en de lijst van zaken.</li>
+          <li>Noteer je vragen voor de makelaar én de adviseur.</li>
+        </ul></div></details>
+      </div>
+
+      <div class="step active"><div class="when">NU — EERST DOEN</div><h3>1. Hypotheek definitief maken</h3><p>Vóór je íets tekent. Dit is de belangrijkste stap.</p>
+        <details open><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li>Bel/mail je adviseur: komt de financiering van de koopsom <strong>definitief rond</strong>, mét Vera's studieschuld meegerekend?</li>
+          <li>Vraag die bevestiging <strong>op schrift</strong> (mail) — een duidelijke "ja, dit is haalbaar".</li>
+          <li>Lever de laatste ontbrekende stukken aan (verzekeringspolissen).</li>
+          <li>Vraag: hoe snel kan er een <strong>bindende offerte</strong> zijn en tot wanneer geldt die?</li>
+        </ul>
+        <div class="warn">⚠️ Je hebt <strong>zónder financieringsvoorbehoud</strong> geboden. Komt de hypotheek na tekenen niet rond, dan is dat 10% boete. Daarom: éérst groen licht, dán pas tekenen.</div>
+        </div></details>
+      </div>
+
+      <div class="step"><div class="when">PAS NÁ GROEN LICHT</div><h3>2. Koopovereenkomst tekenen</h3><p>De makelaar kan vragen om snel te tekenen — maar jíj bepaalt wanneer.</p>
+        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li><strong>Teken niet</strong> voordat de adviseur heeft bevestigd dat de financiering rond is.</li>
+          <li>Nog geen groen licht en wil de makelaar morgen tekenen? Vraag netjes <strong>een paar dagen uitstel</strong> tot de adviseur het bevestigt.</li>
+          <li>Controleer in de akte: koopsom, leverdatum (~feb 2027), de ontbindende voorwaarden, de waarborgsom (10%) + uiterste datum, en de lijst van zaken.</li>
+          <li><strong>Beiden tekenen</strong> (Wilco én Vera).</li>
+        </ul>
+        <div class="warn">Vangnet: ná tekenen heb je <strong>3 dagen wettelijke bedenktijd</strong> — kosteloos terug. Gebruik dat als laatste achterdeur, niet als plan.</div>
+        </div></details>
+      </div>
+
+      <div class="step"><div class="when">BINNEN 3 DAGEN NA TEKENEN</div><h3>3. Bouwkundige keuring</h3><p>De woning is uit 2004 — een keuring is goedkope zekerheid.</p>
+        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li>Plan de keuring ín de 3 dagen bedenktijd (± €400–600).</li>
+          <li>Laat vooral kruipruimte, vocht, dak/kozijnen en installaties checken.</li>
+        </ul></div></details>
+      </div>
+
+      <div class="step"><div class="when">BINNEN ~3 WEKEN</div><h3>4. Waarborgsom / bankgarantie</h3><p>10% van de koopsom, via de notaris of je bank.</p>
+        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li>Regel met je bank/adviseur een <strong>bankgarantie</strong> (of stort de waarborgsom). De uiterste datum staat in de koopakte.</li>
+        </ul></div></details>
+      </div>
+
+      <div class="step"><div class="when">ZOMER / NAJAAR 2026</div><h3>5. Eigen huis verkopen</h3><p>Via makelaar Van Es — overdracht afstemmen op ~feb 2027.</p>
+        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li>Bezichtiging/opname inplannen met Van Es.</li>
+          <li>Stem de overdrachtsdatum af op februari 2027 om dubbele lasten/overbrugging te beperken.</li>
+        </ul></div></details>
+      </div>
+
+      <div class="step"><div class="when">NAJAAR 2026 – BEGIN 2027</div><h3>6. Financiering afronden &amp; notaris</h3><p>Taxatie, definitieve offerte, notaris.</p>
+        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li>Laat de taxatie van de nieuwe woning uitvoeren.</li>
+          <li>Teken de definitieve hypotheekofferte.</li>
+          <li>Kies een notaris en controleer de conceptakte van levering.</li>
+        </ul></div></details>
+      </div>
+
+      <div class="step"><div class="when">~ FEBRUARI 2027</div><h3>7. Overdracht &amp; sleutel 🔑</h3><p>Eindinspectie en de sleutel van je nieuwe huis.</p>
+        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
+          <li>Eindinspectie samen met de makelaar vlak vóór de overdracht.</li>
+          <li>Bij de notaris tekenen → sleutel. 🎉</li>
+        </ul></div></details>
+      </div>
     </div>
   </section>
 
