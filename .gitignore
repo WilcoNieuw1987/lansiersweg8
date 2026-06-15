@@ -1,0 +1,4 @@
+# Gevoelige, leesbare inhoud — NOOIT naar GitHub (alleen versleuteld in index.html)
+tools/financien.content.html
+.env
+node_modules/
