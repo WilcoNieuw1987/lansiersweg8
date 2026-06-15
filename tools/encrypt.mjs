@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const password = process.env.SITE_PW;
 if (!password) { console.error('FOUT: zet eerst een wachtwoord, bijv.  SITE_PW=geheim node tools/encrypt.mjs'); process.exit(1); }
 
-const plaintext = readFileSync('tools/financien.content.html', 'utf8');
+const plaintext = readFileSync('tools/app.content.html', 'utf8');
 const enc = new TextEncoder();
 const salt = crypto.getRandomValues(new Uint8Array(16));
 const iv = crypto.getRandomValues(new Uint8Array(12));

@@ -4,10 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>Lansiersweg 8 — ons plan</title>
+<title>Lansiersweg 8</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root{--green:#1f4d3a;--green-2:#2c6a50;--sand:#f6f1e7;--card:#fff;--ink:#23271f;
     --muted:#6b7163;--terra:#c8643c;--line:#e6ddcd;--ok:#2c6a50;--shadow:0 10px 30px rgba(31,77,58,.08)}
@@ -15,48 +16,61 @@
   body{margin:0;background:var(--sand);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,sans-serif;line-height:1.55}
   .wrap{max-width:920px;margin:0 auto;padding:0 20px}
   h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.15;margin:0}
-  a{color:var(--terra)}
 
-  header.hero{background:linear-gradient(160deg,var(--green),var(--green-2));color:#fff;padding:48px 0 40px}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
-    color:#fff;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:16px}
-  .hero h1{font-size:clamp(36px,8vw,64px);color:#fff;letter-spacing:-.5px}
-  .hero .addr{font-size:18px;color:rgba(255,255,255,.85);margin-top:6px}
-  .countdown{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
-  .cd-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:12px 18px;min-width:72px;text-align:center}
-  .cd-box b{display:block;font-family:Fraunces,serif;font-size:26px;line-height:1}
+  /* LOGIN */
+  #login{min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,var(--green),var(--green-2));padding:20px}
+  .loginbox{background:var(--card);border-radius:20px;padding:36px 30px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+  .loginbox .lk{font-size:38px}
+  .loginbox h1{font-size:30px;margin:6px 0 2px}
+  .loginbox p{color:var(--muted);margin:4px 0 18px;font-size:14px}
+  .loginbox input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:11px;font:inherit;margin-bottom:10px}
+  .loginbox button{width:100%;padding:13px;border:0;border-radius:11px;background:var(--green);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+  .loginbox button:hover{background:var(--green-2)}
+  .loginbox .err{color:#b23b2e;font-size:13.5px;min-height:18px;margin-top:10px}
+
+  /* APP */
+  header.hero{background:linear-gradient(160deg,var(--green),var(--green-2));color:#fff;padding:42px 0 36px}
+  .pill{display:inline-flex;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:14px}
+  .hero h1{font-size:clamp(34px,8vw,60px);color:#fff;letter-spacing:-.5px}
+  .hero .addr{font-size:17px;color:rgba(255,255,255,.85);margin-top:6px}
+  .countdown{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+  .cd-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:11px 17px;min-width:70px;text-align:center}
+  .cd-box b{display:block;font-family:Fraunces,serif;font-size:25px;line-height:1}
   .cd-box span{font-size:11px;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.6px}
   .cd-note{margin-top:10px;font-size:13px;color:rgba(255,255,255,.75)}
 
-  nav.tabs{position:sticky;top:0;z-index:10;background:rgba(246,241,231,.92);backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line)}
+  nav.tabs{position:sticky;top:0;z-index:10;background:rgba(246,241,231,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
   nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;padding:10px 20px}
-  nav.tabs button{flex:none;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;
-    font-size:14px;padding:9px 14px;border-radius:10px;cursor:pointer;white-space:nowrap}
+  nav.tabs button{flex:none;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;font-size:14px;padding:9px 13px;border-radius:10px;cursor:pointer;white-space:nowrap}
   nav.tabs button:hover{background:#efe8da;color:var(--ink)}
   nav.tabs button.active{background:var(--green);color:#fff}
 
-  main{padding:34px 0 10px}
+  main{padding:32px 0 10px}
   section.tab{display:none}
   section.tab.active{display:block;animation:fade .25s ease}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .eyebrow{color:var(--terra);font-weight:600;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:6px}
-  h2{font-size:clamp(23px,4vw,30px);margin-bottom:8px}
+  h2{font-size:clamp(22px,4vw,30px);margin-bottom:8px}
   .lead{color:var(--muted);margin:0 0 22px;max-width:62ch}
   h3{font-size:18px;margin:26px 0 12px}
 
   .facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
   .fact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
-  .fact .ic{font-size:22px}.fact .lbl{color:var(--muted);font-size:12.5px;margin-top:8px}
-  .fact .val{font-weight:600;font-size:16px;margin-top:2px}
+  .fact .ic{font-size:22px}.fact .lbl{color:var(--muted);font-size:12.5px;margin-top:8px}.fact .val{font-weight:600;font-size:16px;margin-top:2px}
   .badgeA{display:inline-block;background:#1f9d57;color:#fff;font-weight:700;padding:1px 9px;border-radius:6px}
-
   .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);margin-top:6px}
   .list{margin:0;padding-left:20px}.list li{margin:5px 0}
   .tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
   .tbl td,.tbl th{padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:14.5px}
-  .tbl th{background:#faf7f0;font-weight:600}.tbl .r{text-align:right}
-  .tbl .sub td{font-weight:600;background:#faf7f0}.tbl .hl td{font-weight:700;background:#eef4ef;color:var(--green)}
+  .tbl th{background:#faf7f0;font-weight:600}.tbl .r{text-align:right}.tbl .hl td{font-weight:700;background:#eef4ef;color:var(--green)}
+
+  .chartcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);margin:14px 0}
+  .chartcard h3{margin:0 0 4px;font-size:16px;font-family:Inter,sans-serif;font-weight:600}
+  .chartcard p{margin:0 0 12px;color:var(--muted);font-size:13px}
+  .chartbox{position:relative;height:260px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.grid2{grid-template-columns:1fr}}
 
   .tl{position:relative;margin-left:8px;padding-left:26px;border-left:2px solid var(--line)}
   .tl .step{position:relative;padding:0 0 22px}
@@ -65,15 +79,6 @@
   .tl .step.active::before{background:var(--terra);border-color:var(--terra);box-shadow:0 0 0 5px rgba(200,100,60,.18)}
   .tl .when{font-size:12.5px;color:var(--terra);font-weight:600}
   .tl .step h3{font-size:17px;margin:2px 0 3px}.tl .step p{margin:0;color:var(--muted);font-size:14px}
-  .tl .step details{margin-top:9px;background:#faf7f0;border:1px solid var(--line);border-radius:10px}
-  .tl .step summary{cursor:pointer;padding:9px 12px;font-weight:600;font-size:13.5px;color:var(--green);list-style:none}
-  .tl .step summary::-webkit-details-marker{display:none}
-  .tl .step summary::before{content:"▸ ";color:var(--terra)}
-  .tl .step details[open] summary::before{content:"▾ "}
-  .tl .step details .body{padding:0 14px 12px}
-  .tl .step details ul{margin:4px 0;padding-left:18px}
-  .tl .step details li{margin:5px 0;font-size:13.5px;color:var(--ink)}
-  .tl .step .warn{background:#fcf0e9;border:1px solid #eccbbb;color:#8a3c25;border-radius:8px;padding:9px 11px;font-size:13px;margin:9px 0 2px}
 
   .tasks{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 6px;box-shadow:var(--shadow)}
   .task{display:flex;gap:13px;align-items:flex-start;padding:13px 14px;border-radius:10px;cursor:pointer}
@@ -82,286 +87,95 @@
   .task input:checked{background:var(--ok);border-color:var(--ok)}
   .task input:checked::after{content:"✓";color:#fff;position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
   .task label{cursor:pointer;font-size:15px}.task input:checked~label{color:var(--muted);text-decoration:line-through}
-  .progress{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin:0 0 16px}
-  .progress>i{display:block;height:100%;width:0;background:var(--green-2);transition:width .3s}
+  .progress{height:8px;background:var(--line);border-radius:999px;overflow:hidden;margin:0 0 16px}.progress>i{display:block;height:100%;width:0;background:var(--green-2);transition:width .3s}
   .progress-txt{font-size:13px;color:var(--muted);margin-bottom:8px}
-
   .note-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
   .ncard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
   .ncard h3{font-size:15px;font-family:Inter,sans-serif;font-weight:600;margin:0 0 4px}.ncard p{margin:0;color:var(--muted);font-size:13.5px}
-
-  /* protected content */
-  .gate{max-width:420px;margin:10px auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;text-align:center;box-shadow:var(--shadow)}
-  .gate .lockic{font-size:34px}
-  .gate input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit;margin:14px 0 10px}
-  .gate button{width:100%;padding:12px;border:0;border-radius:10px;background:var(--green);color:#fff;font:inherit;font-weight:600;cursor:pointer}
-  .gate button:hover{background:var(--green-2)}
-  .gate .err{color:#b23b2e;font-size:13.5px;min-height:18px;margin-top:8px}
-  .alert{background:#fcf0e9;border:1px solid #eccbbb;color:#8a3c25;border-radius:12px;padding:14px 16px;margin:18px 0;font-size:14px}
-  .checklist{list-style:none;padding:0;margin:0}
-  .checklist li{padding:8px 0 8px 30px;position:relative;border-bottom:1px solid var(--line);font-size:14.5px}
-  .checklist li::before{position:absolute;left:0;top:7px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
-  .checklist li.ok::before{content:"✓";background:var(--ok);color:#fff}
-  .checklist li.todo::before{content:"!";background:var(--terra);color:#fff}
-  .muted-note{color:var(--muted);font-size:13px;margin-top:10px}
-
-  footer{padding:30px 0 50px;color:var(--muted);font-size:13px;text-align:center;border-top:1px solid var(--line);margin-top:24px}
-  .lock{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:12.5px;color:var(--muted);margin-bottom:12px}
+  .alert{background:#fcf0e9;border:1px solid #eccbbb;color:#8a3c25;border-radius:12px;padding:13px 15px;margin:16px 0;font-size:14px}
+  footer{padding:28px 0 50px;color:var(--muted);font-size:13px;text-align:center;border-top:1px solid var(--line);margin-top:22px}
+  .logout{background:none;border:1px solid var(--line);border-radius:8px;padding:5px 12px;color:var(--muted);font:inherit;font-size:12.5px;cursor:pointer;margin-top:10px}
 </style>
 </head>
 <body>
 
-<header class="hero"><div class="wrap">
-  <span class="pill">🎉 Winnend bod uitgebracht</span>
-  <h1>Lansiersweg&nbsp;8</h1>
-  <div class="addr">3907 ZE Veenendaal · twee-onder-één-kap · 142 m²</div>
-  <div class="countdown" id="countdown"></div>
-  <div class="cd-note">Geschatte overdracht: <strong>februari 2027</strong></div>
-</div></header>
+<div id="login">
+  <div class="loginbox">
+    <div class="lk">🔒</div>
+    <h1>Lansiersweg 8</h1>
+    <p>Privé — voer het wachtwoord in</p>
+    <input type="password" id="pw" placeholder="Wachtwoord" autocomplete="current-password" />
+    <button id="unlock">Openen</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
 
-<nav class="tabs"><div class="wrap" id="tabbar">
-  <button data-t="overzicht" class="active">Overzicht</button>
-  <button data-t="woning">De woning</button>
-  <button data-t="buurt">Buurt &amp; energie</button>
-  <button data-t="tijdlijn">Tijdlijn</button>
-  <button data-t="taken">Taken</button>
-  <button data-t="prive">🔒 Privé</button>
-  <button data-t="aandacht">Aandachtspunten</button>
-</div></nav>
-
-<main><div class="wrap">
-
-  <section class="tab active" id="tab-overzicht">
-    <div class="eyebrow">Welkom</div><h2>Ons nieuwe huis</h2>
-    <p class="lead">Een prive-overzicht van de aankoop van Lansiersweg 8: waar we staan, wat er moet gebeuren en alle gegevens op een rij.</p>
-    <div class="facts">
-      <div class="fact"><div class="ic">✅</div><div class="lbl">Status</div><div class="val">Bod gewonnen</div></div>
-      <div class="fact"><div class="ic">➡️</div><div class="lbl">Volgende stap</div><div class="val">Hypotheek rond + tekenen</div></div>
-      <div class="fact"><div class="ic">🔑</div><div class="lbl">Overdracht</div><div class="val">~ feb 2027</div></div>
-      <div class="fact"><div class="ic">🏠</div><div class="lbl">Eigen huis</div><div class="val">Verkopen via Van Es</div></div>
-    </div>
-    <div class="panel" style="margin-top:18px">Tip: in de tab <strong>🔒 Privé</strong> staan de financiën en de aanleverlijst — die zijn met een wachtwoord beveiligd.</div>
-  </section>
-
-  <section class="tab" id="tab-woning">
-    <div class="eyebrow">De woning</div><h2>Kerngegevens</h2>
-    <div class="facts">
-      <div class="fact"><div class="ic">🏡</div><div class="lbl">Type</div><div class="val">2-onder-1-kap</div></div>
-      <div class="fact"><div class="ic">📐</div><div class="lbl">Woonoppervlak</div><div class="val">142 m²</div></div>
-      <div class="fact"><div class="ic">🧱</div><div class="lbl">Bouwjaar</div><div class="val">2004</div></div>
-      <div class="fact"><div class="ic">⚡</div><div class="lbl">Energielabel</div><div class="val"><span class="badgeA">A</span></div></div>
-      <div class="fact"><div class="ic">☀️</div><div class="lbl">Zonnepanelen</div><div class="val">11 st · 4400 Wp</div></div>
-      <div class="fact"><div class="ic">🔥</div><div class="lbl">CV-ketel</div><div class="val">Intergas HR (2021)</div></div>
-      <div class="fact"><div class="ic">❄️</div><div class="lbl">Koeling</div><div class="val">Airco aanwezig</div></div>
-      <div class="fact"><div class="ic">💨</div><div class="lbl">Ventilatie</div><div class="val">Mechanische afzuiging</div></div>
-      <div class="fact"><div class="ic">🔌</div><div class="lbl">Laadpaal</div><div class="val">Bij de voordeur</div></div>
-      <div class="fact"><div class="ic">🌐</div><div class="lbl">Internet</div><div class="val">Glasvezel</div></div>
-      <div class="fact"><div class="ic">🚗</div><div class="lbl">Extra</div><div class="val">Garage / berging</div></div>
-      <div class="fact"><div class="ic">🍳</div><div class="lbl">Keuken</div><div class="val">Inbouwapparatuur blijft</div></div>
-    </div>
-  </section>
-
-  <section class="tab" id="tab-buurt">
-    <div class="eyebrow">Omgeving</div><h2>Buurt &amp; energie</h2>
-    <h3>De buurt</h3>
-    <ul class="list">
-      <li>Wijk <strong>Dragonder-Oost</strong>, Veenendaal.</li>
-      <li>Parkeren: geen vergunning nodig (te bevestigen).</li>
-      <li>Glasvezel aanwezig.</li>
-    </ul>
-    <h3>Energie &amp; verbruik</h3>
-    <table class="tbl">
-      <tr><th>Post</th><th>Verbruik (huidige bewoners, 5 pers.)</th></tr>
-      <tr><td>Gas</td><td>± 931 m³ / jaar</td></tr>
-      <tr><td>Elektra</td><td>± 4.822 kWh / jaar</td></tr>
-      <tr><td>Water</td><td>± 225 m³ / jaar</td></tr>
-      <tr><td>Aandeel hernieuwbare energie</td><td>22,2%</td></tr>
-    </table>
-    <p class="muted-note">Energielabel A · geregistreerd 17-06-2025, geldig tot 17-06-2035.</p>
-  </section>
-
-  <section class="tab" id="tab-tijdlijn">
-    <div class="eyebrow">Het pad ernaartoe</div><h2>Tijdlijn naar de overdracht</h2>
-    <div class="tl">
-      <div class="step done"><div class="when">GEDAAN</div><h3>Bod gewonnen 🎉</h3><p>Winnend bod uitgebracht op Lansiersweg 8.</p></div>
-
-      <div class="step done"><div class="when">GEDAAN</div><h3>Concept koopovereenkomst ontvangen</h3><p>Van makelaar Van Ginkel &amp; Van Bemmelen.</p>
-        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li>Download de concept-akte (link + wachtwoord staan in de mail van de makelaar).</li>
-          <li>Lees vooral: koopsom, leverdatum, ontbindende voorwaarden, waarborgsom en de lijst van zaken.</li>
-          <li>Noteer je vragen voor de makelaar én de adviseur.</li>
-        </ul></div></details>
-      </div>
-
-      <div class="step active"><div class="when">NU — EERST DOEN</div><h3>1. Hypotheek definitief maken</h3><p>Vóór je íets tekent. Dit is de belangrijkste stap.</p>
-        <details open><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li>Bel/mail je adviseur: komt de financiering van de koopsom <strong>definitief rond</strong>, mét Vera's studieschuld meegerekend?</li>
-          <li>Vraag die bevestiging <strong>op schrift</strong> (mail) — een duidelijke "ja, dit is haalbaar".</li>
-          <li>Lever de laatste ontbrekende stukken aan (verzekeringspolissen).</li>
-          <li>Vraag: hoe snel kan er een <strong>bindende offerte</strong> zijn en tot wanneer geldt die?</li>
-        </ul>
-        <div class="warn">⚠️ Je hebt <strong>zónder financieringsvoorbehoud</strong> geboden. Komt de hypotheek na tekenen niet rond, dan is dat 10% boete. Daarom: éérst groen licht, dán pas tekenen.</div>
-        </div></details>
-      </div>
-
-      <div class="step"><div class="when">PAS NÁ GROEN LICHT</div><h3>2. Koopovereenkomst tekenen</h3><p>De makelaar kan vragen om snel te tekenen — maar jíj bepaalt wanneer.</p>
-        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li><strong>Teken niet</strong> voordat de adviseur heeft bevestigd dat de financiering rond is.</li>
-          <li>Nog geen groen licht en wil de makelaar morgen tekenen? Vraag netjes <strong>een paar dagen uitstel</strong> tot de adviseur het bevestigt.</li>
-          <li>Controleer in de akte: koopsom, leverdatum (~feb 2027), de ontbindende voorwaarden, de waarborgsom (10%) + uiterste datum, en de lijst van zaken.</li>
-          <li><strong>Beiden tekenen</strong> (Wilco én Vera).</li>
-        </ul>
-        <div class="warn">Vangnet: ná tekenen heb je <strong>3 dagen wettelijke bedenktijd</strong> — kosteloos terug. Gebruik dat als laatste achterdeur, niet als plan.</div>
-        </div></details>
-      </div>
-
-      <div class="step"><div class="when">BINNEN 3 DAGEN NA TEKENEN</div><h3>3. Bouwkundige keuring</h3><p>De woning is uit 2004 — een keuring is goedkope zekerheid.</p>
-        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li>Plan de keuring ín de 3 dagen bedenktijd (± €400–600).</li>
-          <li>Laat vooral kruipruimte, vocht, dak/kozijnen en installaties checken.</li>
-        </ul></div></details>
-      </div>
-
-      <div class="step"><div class="when">BINNEN ~3 WEKEN</div><h3>4. Waarborgsom / bankgarantie</h3><p>10% van de koopsom, via de notaris of je bank.</p>
-        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li>Regel met je bank/adviseur een <strong>bankgarantie</strong> (of stort de waarborgsom). De uiterste datum staat in de koopakte.</li>
-        </ul></div></details>
-      </div>
-
-      <div class="step"><div class="when">ZOMER / NAJAAR 2026</div><h3>5. Eigen huis verkopen</h3><p>Via makelaar Van Es — overdracht afstemmen op ~feb 2027.</p>
-        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li>Bezichtiging/opname inplannen met Van Es.</li>
-          <li>Stem de overdrachtsdatum af op februari 2027 om dubbele lasten/overbrugging te beperken.</li>
-        </ul></div></details>
-      </div>
-
-      <div class="step"><div class="when">NAJAAR 2026 – BEGIN 2027</div><h3>6. Financiering afronden &amp; notaris</h3><p>Taxatie, definitieve offerte, notaris.</p>
-        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li>Laat de taxatie van de nieuwe woning uitvoeren.</li>
-          <li>Teken de definitieve hypotheekofferte.</li>
-          <li>Kies een notaris en controleer de conceptakte van levering.</li>
-        </ul></div></details>
-      </div>
-
-      <div class="step"><div class="when">~ FEBRUARI 2027</div><h3>7. Overdracht &amp; sleutel 🔑</h3><p>Eindinspectie en de sleutel van je nieuwe huis.</p>
-        <details><summary>Wat moet ik doen?</summary><div class="body"><ul>
-          <li>Eindinspectie samen met de makelaar vlak vóór de overdracht.</li>
-          <li>Bij de notaris tekenen → sleutel. 🎉</li>
-        </ul></div></details>
-      </div>
-    </div>
-  </section>
-
-  <section class="tab" id="tab-taken">
-    <div class="eyebrow">Aan de slag</div><h2>Onze takenlijst</h2>
-    <div class="progress-txt" id="progressTxt"></div>
-    <div class="progress"><i id="progressBar"></i></div>
-    <div class="tasks" id="tasks">
-      <div class="task"><input type="checkbox" id="t1" checked><label for="t1">Bod uitbrengen op Lansiersweg 8</label></div>
-      <div class="task"><input type="checkbox" id="t2" checked><label for="t2">Concept koopovereenkomst ontvangen &amp; doorlezen</label></div>
-      <div class="task"><input type="checkbox" id="t3"><label for="t3">Hypotheek definitief rondmaken met de adviseur</label></div>
-      <div class="task"><input type="checkbox" id="t4"><label for="t4">Koopovereenkomst tekenen (let op: 3 dagen bedenktijd)</label></div>
-      <div class="task"><input type="checkbox" id="t5"><label for="t5">Bouwkundige keuring laten uitvoeren</label></div>
-      <div class="task"><input type="checkbox" id="t6"><label for="t6">Waarborgsom / bankgarantie regelen</label></div>
-      <div class="task"><input type="checkbox" id="t7"><label for="t7">Taxatie nieuwe woning laten doen</label></div>
-      <div class="task"><input type="checkbox" id="t8"><label for="t8">Eigen huis in de verkoop zetten (makelaar Van Es)</label></div>
-      <div class="task"><input type="checkbox" id="t9"><label for="t9">Notaris kiezen</label></div>
-      <div class="task"><input type="checkbox" id="t10"><label for="t10">Opstal- &amp; inboedelverzekering regelen</label></div>
-      <div class="task"><input type="checkbox" id="t11"><label for="t11">Verzekeringspolissen aanleveren bij adviseur</label></div>
-      <div class="task"><input type="checkbox" id="t12"><label for="t12">Eindinspectie &amp; sleuteloverdracht</label></div>
-    </div>
-  </section>
-
-  <section class="tab" id="tab-prive">
-    <div class="eyebrow">Beveiligd</div><h2>Privé — financiën &amp; aanleveren</h2>
-    <div id="gate" class="gate">
-      <div class="lockic">🔒</div>
-      <p style="margin:8px 0 0;color:var(--muted)">Deze inhoud is versleuteld. Voer het wachtwoord in.</p>
-      <input type="password" id="pw" placeholder="Wachtwoord" autocomplete="off" />
-      <button id="unlock">Ontgrendelen</button>
-      <div class="err" id="err"></div>
-    </div>
-    <div id="priveContent" style="display:none"></div>
-  </section>
-
-  <section class="tab" id="tab-aandacht">
-    <div class="eyebrow">Nog uitzoeken</div><h2>Aandachtspunten</h2>
-    <div class="note-cards">
-      <div class="ncard"><h3>🔥 CV-ketel (2021)</h3><p>Onderhoudscontract/garantie van Breman overnemen?</p></div>
-      <div class="ncard"><h3>☀️ Zonnepanelen (2023)</h3><p>Inloggegevens mySolarEdge-app en fabrieksgarantie checken.</p></div>
-      <div class="ncard"><h3>🔌 Laadpaal e-auto</h3><p>"Nader overeen te komen" — blijft die achter, en tegen welke prijs?</p></div>
-      <div class="ncard"><h3>🕳️ Kruipruimte</h3><p>Toegankelijk en droog? Luik laten openen.</p></div>
-      <div class="ncard"><h3>🧰 Garagedak</h3><p>Is het geïsoleerd? (stond als onbekend in de vragenlijst)</p></div>
-      <div class="ncard"><h3>💨 Ventilatie</h3><p>Wanneer is de mechanische ventilatie voor het laatst onderhouden?</p></div>
-      <div class="ncard"><h3>📏 Kadastrale grens</h3><p>Bij nr. 8 loopt een voorlopige grens — is die definitief?</p></div>
-      <div class="ncard"><h3>🌿 Tuin</h3><p>Check op Japanse duizendknoop (stond als "niet bekend").</p></div>
-    </div>
-  </section>
-
-</div></main>
-
-<footer><div class="wrap">
-  <span class="lock">🔒 Privé planning-hub — geen officiële woningadvertentie</span>
-  <div>Gemaakt voor Wilco &amp; Vera · woninggegevens uit het energielabel en de woninginformatie.</div>
-  <div id="updated" style="margin-top:6px"></div>
-</div></footer>
+<div id="app" style="display:none"></div>
 
 <script>
-  window.LW8_ENC = {"salt":"EvdupVaxhofCclQhyXEMHg==","iv":"HrUPz6B+WiK4WjWz","ct":"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","iter":250000};
+  window.LW8_ENC = {"salt":"lygK4D1dz/3uZNU3orzsnw==","iv":"d1sIJn8QCD+Cuuo/","ct":"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","iter":250000};
 
-  // Tabs
-  var bar = document.getElementById('tabbar');
-  bar.addEventListener('click', function(e){
-    var b = e.target.closest('button'); if(!b) return;
-    bar.querySelectorAll('button').forEach(function(x){x.classList.remove('active')});
-    b.classList.add('active');
-    document.querySelectorAll('section.tab').forEach(function(s){s.classList.remove('active')});
-    document.getElementById('tab-'+b.dataset.t).classList.add('active');
-    window.scrollTo({top:0,behavior:'smooth'});
-  });
+  var b = function(s){return Uint8Array.from(atob(s), function(c){return c.charCodeAt(0)})};
+  async function decryptApp(pw){
+    var E=window.LW8_ENC, enc=new TextEncoder();
+    var km=await crypto.subtle.importKey('raw',enc.encode(pw),{name:'PBKDF2'},false,['deriveKey']);
+    var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(E.salt),iterations:E.iter,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
+    var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(E.iv)},key,b(E.ct));
+    return new TextDecoder().decode(pt);
+  }
 
-  // Countdown
+  function euro(n){return '€ '+n.toLocaleString('nl-NL');}
+
+  function initApp(){
+    // Tabs
+    var bar=document.getElementById('tabbar');
+    if(bar){bar.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)return;
+      bar.querySelectorAll('button').forEach(function(z){z.classList.remove('active')});x.classList.add('active');
+      document.querySelectorAll('#app section.tab').forEach(function(s){s.classList.remove('active')});
+      document.getElementById('tab-'+x.dataset.t).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});});}
+    // Countdown
+    var cd=document.getElementById('countdown');
+    if(cd){var t=new Date('2027-03-02T00:00:00');var f=function(){var d=Math.max(0,Math.floor((t-new Date())/86400000));
+      cd.innerHTML='<div class="cd-box"><b>'+d+'</b><span>dagen</span></div><div class="cd-box"><b>'+Math.floor(d/7)+'</b><span>weken</span></div><div class="cd-box"><b>~'+Math.floor(d/30.44)+'</b><span>maanden</span></div>';};f();setInterval(f,3600000);}
+    // Tasks
+    var boxes=document.querySelectorAll('#tasks input'),pb=document.getElementById('progressBar'),pt=document.getElementById('progressTxt');
+    if(boxes.length){var upd=function(){var d=0;boxes.forEach(function(x){if(x.checked)d++});var p=Math.round(d/boxes.length*100);if(pb)pb.style.width=p+'%';if(pt)pt.textContent=d+' van '+boxes.length+' afgerond ('+p+'%)';};
+      boxes.forEach(function(x){var s=localStorage.getItem('lw8_'+x.id);if(s!==null)x.checked=(s==='1');x.addEventListener('change',function(){localStorage.setItem('lw8_'+x.id,x.checked?'1':'0');upd();});});upd();}
+    // Logout
+    var lo=document.getElementById('logout');if(lo)lo.addEventListener('click',function(){location.reload();});
+    // Charts
+    try{renderCharts();}catch(e){}
+  }
+
+  function renderCharts(){
+    var el=document.getElementById('chartdata'); if(!el||typeof Chart==='undefined')return;
+    var D=JSON.parse(el.textContent);
+    var green='#2c6a50', terra='#c8643c', sand='#d9b08c', line='#e6ddcd', ink='#23271f';
+    var money={plugins:{legend:{display:false}},scales:{y:{ticks:{callback:function(v){return '€'+v}}}}};
+    new Chart(document.getElementById('incomeChart'),{type:'bar',data:{labels:D.income.labels,datasets:[{data:D.income.data,backgroundColor:green,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return '+ €'+c.raw+' netto/mnd'}}}},scales:{y:{ticks:{callback:function(v){return '€'+v}}}}}});
+    new Chart(document.getElementById('costChart'),{type:'bar',data:{labels:D.cost.labels,datasets:[{data:D.cost.data,borderRadius:6,backgroundColor:D.cost.data.map(function(v,i){return i===D.cost.data.length-1?terra:(v>0?'#c0573f':green)})}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return (c.raw>0?'+':'')+'€'+c.raw+'/mnd'}}}},scales:{y:{ticks:{callback:function(v){return '€'+v}}}}}});
+    new Chart(document.getElementById('overwaardeChart'),{type:'doughnut',data:{labels:D.overwaarde.labels,datasets:[{data:D.overwaarde.data,backgroundColor:[green,terra,sand]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:function(c){return c.label+': €'+c.raw.toLocaleString('nl-NL')}}}}}});
+    new Chart(document.getElementById('hypotheekChart'),{type:'doughnut',data:{labels:D.hypotheek.labels,datasets:[{data:D.hypotheek.data,backgroundColor:[green,terra]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:function(c){return c.label+': €'+c.raw.toLocaleString('nl-NL')}}}}}});
+  }
+
+  // Login flow
   (function(){
-    var target=new Date('2027-02-01T00:00:00'), el=document.getElementById('countdown');
-    function tick(){var diff=Math.max(0,target-new Date());var d=Math.floor(diff/86400000);
-      el.innerHTML='<div class="cd-box"><b>'+d+'</b><span>dagen</span></div>'+
-        '<div class="cd-box"><b>'+Math.floor(d/7)+'</b><span>weken</span></div>'+
-        '<div class="cd-box"><b>~'+Math.floor(d/30.44)+'</b><span>maanden</span></div>';}
-    tick();setInterval(tick,3600000);
-  })();
-
-  // Tasks (localStorage)
-  (function(){
-    var boxes=document.querySelectorAll('#tasks input'),bar2=document.getElementById('progressBar'),txt=document.getElementById('progressTxt');
-    function upd(){var d=0;boxes.forEach(function(b){if(b.checked)d++});var p=Math.round(d/boxes.length*100);
-      bar2.style.width=p+'%';txt.textContent=d+' van '+boxes.length+' afgerond ('+p+'%)';}
-    boxes.forEach(function(b){var s=localStorage.getItem('lw8_'+b.id);if(s!==null)b.checked=(s==='1');
-      b.addEventListener('change',function(){localStorage.setItem('lw8_'+b.id,b.checked?'1':'0');upd();});});
-    upd();
-  })();
-
-  // Decrypt protected content
-  (function(){
-    var btn=document.getElementById('unlock'),pw=document.getElementById('pw'),err=document.getElementById('err'),
-        gate=document.getElementById('gate'),out=document.getElementById('priveContent');
-    var b=function(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})};
-    async function tryUnlock(){
+    var btn=document.getElementById('unlock'),pw=document.getElementById('pw'),err=document.getElementById('err');
+    async function go(){
       err.textContent='';
-      if(!window.crypto||!crypto.subtle){err.textContent='Beveiliging werkt alleen via https (de Vercel-link).';return;}
+      if(!window.crypto||!crypto.subtle){err.textContent='Werkt alleen via de https-link (Vercel).';return;}
       try{
-        var E=window.LW8_ENC, enc=new TextEncoder();
-        var km=await crypto.subtle.importKey('raw',enc.encode(pw.value),{name:'PBKDF2'},false,['deriveKey']);
-        var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(E.salt),iterations:E.iter,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['decrypt']);
-        var ptBuf=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(E.iv)},key,b(E.ct));
-        out.innerHTML=new TextDecoder().decode(ptBuf);
-        gate.style.display='none';out.style.display='block';
+        var html=await decryptApp(pw.value);
+        document.getElementById('app').innerHTML=html;
+        document.getElementById('login').style.display='none';
+        document.getElementById('app').style.display='block';
+        initApp();
       }catch(_){err.textContent='Onjuist wachtwoord.';}
     }
-    btn.addEventListener('click',tryUnlock);
-    pw.addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock();});
+    btn.addEventListener('click',go);
+    pw.addEventListener('keydown',function(e){if(e.key==='Enter')go();});
+    pw.focus();
   })();
-
-  document.getElementById('updated').textContent='Laatst geopend: '+new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
 </script>
 </body>
 </html>
