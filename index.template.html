@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="utf-8" />
@@ -129,29 +129,46 @@
   .bk-ticket .acts button:hover{background:#faf7f0}
   .bk-empty{color:var(--muted);font-size:14px;padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px}
   .bk-sync{font-size:12.5px;color:var(--muted);margin:0 0 12px}
-  /* Foto review */
-  .foto-stats{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px}
-  .foto-stat{font-size:14px;font-weight:600;color:var(--ink)}
-  .foto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
-  .foto-card{background:var(--card);border:2px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:border-color .15s}
+  /* Foto review — grid */
+  .foto-stats{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 16px;padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+  .foto-stat{font-size:14px;font-weight:600}
+  .foto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+  .foto-card{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;border:2.5px solid var(--line);aspect-ratio:4/3;transition:border-color .15s,transform .1s}
+  .foto-card:hover{transform:scale(1.03)}
+  .foto-card img{width:100%;height:100%;object-fit:cover;display:block}
   .foto-card.v-goed{border-color:#2c6a50}
   .foto-card.v-matig{border-color:#c8a43c}
   .foto-card.v-nee{border-color:#c8643c}
-  .foto-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;cursor:zoom-in}
-  .fc-body{padding:10px 12px}
-  .fc-nr{font-size:12px;color:var(--muted);margin-bottom:7px}
-  .fc-btns{display:flex;gap:6px;margin-bottom:8px}
-  .fc-btns button{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;font-size:17px;padding:5px 4px;cursor:pointer;opacity:.45;transition:.1s}
-  .fc-btns button:hover{opacity:.75}
-  .fc-btns button.act{opacity:1;background:#eef4ef;border-color:#2c6a50}
-  .fc-btns button.act.nee{background:#fdf1ec;border-color:#c8643c}
-  .fc-btns button.act.matig{background:#fdf8ec;border-color:#c8a43c}
-  .fc-note{width:100%;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px;padding:7px 9px;resize:vertical;min-height:50px;box-sizing:border-box}
-  .foto-lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;align-items:center;justify-content:center;cursor:zoom-out}
+  .foto-nr-badge{position:absolute;top:5px;left:7px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85)}
+  .foto-verdict-badge{position:absolute;bottom:5px;right:6px;font-size:15px;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+  /* Lightbox */
+  .foto-lb{display:none;position:fixed;inset:0;background:rgba(8,8,8,.96);z-index:200;flex-direction:row;align-items:stretch}
   .foto-lb.open{display:flex}
-  .foto-lb img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:8px;cursor:default}
-  .foto-lb-close{position:absolute;top:14px;right:18px;color:#fff;font-size:30px;cursor:pointer;background:none;border:0;line-height:1}
-  @media(max-width:480px){.foto-grid{grid-template-columns:repeat(2,1fr)}}
+  .foto-lb-img-pane{flex:1;display:flex;align-items:center;justify-content:center;min-width:0;padding:52px 20px 20px 20px;position:relative}
+  .foto-lb-img-pane img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;user-select:none}
+  .foto-lb-x{position:absolute;top:12px;left:14px;background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:8px;width:34px;height:34px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .foto-lb-x:hover{background:rgba(255,255,255,.22)}
+  .foto-lb-panel{width:300px;flex:none;background:#141414;border-left:1px solid #2a2a2a;display:flex;flex-direction:column;gap:16px;padding:24px 20px;overflow-y:auto}
+  .foto-lb-nr{color:#666;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+  .lb-v{display:flex;gap:8px}
+  .lb-v button{flex:1;border:1px solid #333;background:#1e1e1e;border-radius:10px;font-size:24px;padding:10px 4px;cursor:pointer;transition:all .12s;opacity:.45}
+  .lb-v button:hover{opacity:.8}
+  .lb-v button.act{opacity:1}
+  .lb-v button[data-lv=goed].act{border-color:#2c6a50;background:#0d2416}
+  .lb-v button[data-lv=matig].act{border-color:#b89430;background:#231d06}
+  .lb-v button[data-lv=nee].act{border-color:#c8643c;background:#2a0e06}
+  .lb-note-lbl{color:#555;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:-8px}
+  .lb-note{width:100%;background:#1e1e1e;border:1px solid #333;border-radius:10px;color:#ddd;font:inherit;font-size:14px;line-height:1.5;padding:10px 12px;resize:vertical;min-height:100px;box-sizing:border-box}
+  .lb-note:focus{outline:none;border-color:#555}
+  .lb-note::placeholder{color:#444}
+  .lb-nav{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+  .lb-nav button{flex:1;border:1px solid #333;background:#1e1e1e;color:#aaa;border-radius:10px;padding:11px 8px;font:inherit;font-size:14px;cursor:pointer}
+  .lb-nav button:hover{background:#2a2a2a;color:#fff}
+  @media(max-width:660px){
+    .foto-lb{flex-direction:column}
+    .foto-lb-img-pane{flex:0 0 52vw;max-height:260px;padding:44px 12px 12px}
+    .foto-lb-panel{width:100%;border-left:0;border-top:1px solid #2a2a2a;flex:1}
+  }
   footer{padding:28px 0 50px;color:var(--muted);font-size:13px;text-align:center;border-top:1px solid var(--line);margin-top:22px}
   .logout{background:none;border:1px solid var(--line);border-radius:8px;padding:5px 12px;color:var(--muted);font:inherit;font-size:12.5px;cursor:pointer;margin-top:10px}
 </style>
@@ -310,44 +327,65 @@
   function initFotoReview(){
     var el=document.getElementById('fotoGrid');if(!el)return;
     var fdEl=document.getElementById('fotodata');
-    var fd=fdEl?JSON.parse(fdEl.textContent):{count:54};
-    var n=fd.count||54;
-    var KEY=function(nr,t){return 'lw8_foto_'+nr+'_'+t;};
-    var html='<div class="foto-stats"><span class="foto-stat" id="fs-goed">👍 0</span><span class="foto-stat" id="fs-matig">😐 0</span><span class="foto-stat" id="fs-nee">👎 0</span><span class="foto-stat" id="fs-open" style="color:var(--muted)">⏳ '+n+' open</span></div>';
+    var n=(fdEl?JSON.parse(fdEl.textContent):{count:54}).count||54;
+    var KEY=function(i,t){return 'lw8_foto_'+(i<10?'0':'')+i+'_'+t;};
+    var BADGE={goed:'\uD83D\uDC4D',matig:'\uD83D\uDE10',nee:'\uD83D\uDC4E'};
+    var cur=1;
+    var html='<div class="foto-stats"><span class="foto-stat" id="fs-g">\uD83D\uDC4D 0</span><span class="foto-stat" id="fs-m">\uD83D\uDE10 0</span><span class="foto-stat" id="fs-nee">\uD83D\uDC4E 0</span><span class="foto-stat" id="fs-o" style="color:var(--muted)">\u23F3 '+n+' open</span></div>';
     html+='<div class="foto-grid" id="fgrid">';
     for(var i=1;i<=n;i++){var nr=(i<10?'0':'')+i;
-      html+='<div class="foto-card" data-n="'+nr+'"><img src="/fotos/foto-'+nr+'.jpg" alt="Foto '+i+'" loading="lazy">'+
-        '<div class="fc-body"><div class="fc-nr">Foto '+i+' / '+n+'</div>'+
-        '<div class="fc-btns"><button data-v="goed">👍</button><button data-v="matig">😐</button><button data-v="nee" class="nee">👎</button></div>'+
-        '<textarea class="fc-note" placeholder="Notitie…"></textarea></div></div>';}
-    html+='</div><div class="foto-lb" id="fotoLb"><button class="foto-lb-close" id="fotoLbClose">✕</button><img id="fotoLbImg" src="" alt=""></div>';
+      html+='<div class="foto-card" data-i="'+i+'"><img src="/fotos/foto-'+nr+'.jpg" alt="Foto '+i+'" loading="lazy"><span class="foto-nr-badge">'+i+'</span><span class="foto-verdict-badge" id="fvb-'+i+'"></span></div>';}
+    html+='</div>';
+    html+='<div class="foto-lb" id="fLb">'+
+      '<div class="foto-lb-img-pane"><button class="foto-lb-x" id="fLbX">&#x2715;</button><img id="fLbImg" src="" alt=""></div>'+
+      '<div class="foto-lb-panel">'+
+        '<div class="foto-lb-nr" id="fLbNr"></div>'+
+        '<div class="lb-v" id="fLbV"><button data-lv="goed">\uD83D\uDC4D</button><button data-lv="matig">\uD83D\uDE10</button><button data-lv="nee">\uD83D\uDC4E</button></div>'+
+        '<div class="lb-note-lbl">Notitie</div>'+
+        '<textarea class="lb-note" id="fLbNote" placeholder="Typ hier je feedback\u2026"></textarea>'+
+        '<div class="lb-nav"><button id="fLbPrev">&#8592; Vorige</button><button id="fLbNext">Volgende &#8594;</button></div>'+
+      '</div>'+
+    '</div>';
     el.innerHTML=html;
+    function getV(i){return localStorage.getItem(KEY(i,'v'));}
     function updStats(){var g=0,m=0,nee=0;
-      for(var i=1;i<=n;i++){var v=localStorage.getItem(KEY((i<10?'0':'')+i,'v'));if(v==='goed')g++;else if(v==='matig')m++;else if(v==='nee')nee++;}
-      document.getElementById('fs-goed').textContent='👍 '+g;
-      document.getElementById('fs-matig').textContent='😐 '+m;
-      document.getElementById('fs-nee').textContent='👎 '+nee;
-      document.getElementById('fs-open').textContent='⏳ '+(n-g-m-nee)+' open';}
+      for(var i=1;i<=n;i++){var v=getV(i);if(v==='goed')g++;else if(v==='matig')m++;else if(v==='nee')nee++;}
+      document.getElementById('fs-g').textContent=BADGE.goed+' '+g;
+      document.getElementById('fs-m').textContent=BADGE.matig+' '+m;
+      document.getElementById('fs-nee').textContent=BADGE.nee+' '+nee;
+      document.getElementById('fs-o').textContent='\u23F3 '+(n-g-m-nee)+' open';}
+    function updCard(i){
+      var card=document.querySelector('.foto-card[data-i="'+i+'"]');if(!card)return;
+      var v=getV(i);card.className='foto-card'+(v?' v-'+v:'');card.dataset.i=i;
+      var b=document.getElementById('fvb-'+i);if(b)b.textContent=v?BADGE[v]:'';}
+    function openLb(i){
+      cur=i;var nr=(i<10?'0':'')+i;
+      document.getElementById('fLbImg').src='/fotos/foto-'+nr+'.jpg';
+      document.getElementById('fLbNr').textContent='Foto '+i+' / '+n;
+      document.getElementById('fLbNote').value=localStorage.getItem(KEY(i,'nt'))||'';
+      var v=getV(i);
+      document.querySelectorAll('#fLbV button').forEach(function(b){b.classList.toggle('act',b.dataset.lv===v);});
+      document.getElementById('fLb').classList.add('open');}
     document.querySelectorAll('.foto-card').forEach(function(card){
-      var nr=card.dataset.n;
-      var v=localStorage.getItem(KEY(nr,'v'));
-      var note=localStorage.getItem(KEY(nr,'nt'));
-      if(v){card.classList.add('v-'+v);var b=card.querySelector('[data-v="'+v+'"]');if(b)b.classList.add('act');}
-      var ta=card.querySelector('.fc-note');if(ta&&note)ta.value=note;
-      card.querySelectorAll('.fc-btns button').forEach(function(btn){
-        btn.addEventListener('click',function(){
-          card.querySelectorAll('.fc-btns button').forEach(function(b){b.classList.remove('act');});
-          card.classList.remove('v-goed','v-matig','v-nee');
-          btn.classList.add('act');card.classList.add('v-'+btn.dataset.v);
-          localStorage.setItem(KEY(nr,'v'),btn.dataset.v);updStats();});});
-      if(ta)ta.addEventListener('input',function(){localStorage.setItem(KEY(nr,'nt'),ta.value);});
-      var img=card.querySelector('img');
-      if(img)img.addEventListener('click',function(){document.getElementById('fotoLbImg').src=img.src;document.getElementById('fotoLb').classList.add('open');});
-    });
-    var lb=document.getElementById('fotoLb');
-    document.getElementById('fotoLbClose').addEventListener('click',function(){lb.classList.remove('open');});
+      var i=parseInt(card.dataset.i);updCard(i);
+      card.addEventListener('click',function(){openLb(i);});});
+    document.querySelectorAll('#fLbV button').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var v=btn.dataset.lv;localStorage.setItem(KEY(cur,'v'),v);
+        document.querySelectorAll('#fLbV button').forEach(function(b){b.classList.toggle('act',b.dataset.lv===v);});
+        updCard(cur);updStats();});});
+    document.getElementById('fLbNote').addEventListener('input',function(){localStorage.setItem(KEY(cur,'nt'),this.value);});
+    function go(d){var ni=((cur-1+d+n)%n)+1;openLb(ni);}
+    document.getElementById('fLbPrev').addEventListener('click',function(){go(-1);});
+    document.getElementById('fLbNext').addEventListener('click',function(){go(1);});
+    var lb=document.getElementById('fLb');
+    document.getElementById('fLbX').addEventListener('click',function(){lb.classList.remove('open');});
     lb.addEventListener('click',function(e){if(e.target===lb)lb.classList.remove('open');});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open');});
+    document.addEventListener('keydown',function(e){
+      if(!lb.classList.contains('open'))return;
+      if(e.key==='Escape')lb.classList.remove('open');
+      else if(e.key==='ArrowRight')go(1);
+      else if(e.key==='ArrowLeft')go(-1);});
     updStats();
   }
 
