@@ -328,10 +328,60 @@
     var el=document.getElementById('fotoGrid');if(!el)return;
     var fdEl=document.getElementById('fotodata');
     var n=(fdEl?JSON.parse(fdEl.textContent):{count:54}).count||54;
-    var KEY=function(i,t){return 'lw8_foto_'+(i<10?'0':'')+i+'_'+t;};
+    var pidEl=document.getElementById('pantry-id');
+    var PID=(pidEl&&pidEl.dataset?pidEl.dataset.id:'').trim();
+    var syncOn=/^[0-9a-f\-]{30,}$/.test(PID);
+    var BASE='https://getpantry.cloud/apiv1/pantry/'+PID+'/basket/fotos-review';
+    var syncEl=document.getElementById('foto-sync');
+    function setSync(m){if(syncEl)syncEl.textContent=m;}
     var BADGE={goed:'\uD83D\uDC4D',matig:'\uD83D\uDE10',nee:'\uD83D\uDC4E'};
-    var cur=1;
-    var html='<div class="foto-stats"><span class="foto-stat" id="fs-g">\uD83D\uDC4D 0</span><span class="foto-stat" id="fs-m">\uD83D\uDE10 0</span><span class="foto-stat" id="fs-nee">\uD83D\uDC4E 0</span><span class="foto-stat" id="fs-o" style="color:var(--muted)">\u23F3 '+n+' open</span></div>';
+    var cur=1;var pushTimer=null;
+
+    // --- Data helpers ---
+    function allData(){
+      var out={};
+      for(var i=1;i<=n;i++){
+        var k=(i<10?'0':'')+i;
+        var v=localStorage.getItem('lw8_foto_'+k+'_v');
+        var nt=localStorage.getItem('lw8_foto_'+k+'_nt')||'';
+        if(v||nt)out[k]={v:v||'',nt:nt};
+      }
+      return out;
+    }
+    function applyData(d){
+      Object.keys(d).forEach(function(k){
+        var i=parseInt(k,10);
+        if(d[k].v)localStorage.setItem('lw8_foto_'+k+'_v',d[k].v);
+        if(d[k].nt)localStorage.setItem('lw8_foto_'+k+'_nt',d[k].nt);
+        updCard(i);
+      });
+      updStats();
+      if(document.getElementById('fLb').classList.contains('open'))refreshLb();
+    }
+    function push(){
+      if(!syncOn)return;
+      clearTimeout(pushTimer);
+      pushTimer=setTimeout(function(){
+        fetch(BASE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({rev:Date.now(),data:allData()})})
+          .then(function(){setSync('\uD83D\uDD04 Gesynchroniseerd \u00B7 '+new Date().toLocaleTimeString('nl-NL').slice(0,5));})
+          .catch(function(){setSync('\u26A0\uFE0F Sync mislukt \u2014 lokaal bewaard.');});
+      },600);
+    }
+    function pull(){
+      if(!syncOn)return Promise.resolve();
+      return fetch(BASE).then(function(r){return r.ok?r.json():null;}).then(function(j){
+        if(j&&j.data){applyData(j.data);setSync('\uD83D\uDD04 Bijgewerkt \u00B7 '+new Date().toLocaleTimeString('nl-NL').slice(0,5));}
+      }).catch(function(){});
+    }
+
+    // --- Build UI ---
+    var html='<div class="foto-stats">'+
+      '<span class="foto-stat" id="fs-g">\uD83D\uDC4D 0</span>'+
+      '<span class="foto-stat" id="fs-m">\uD83D\uDE10 0</span>'+
+      '<span class="foto-stat" id="fs-nee">\uD83D\uDC4E 0</span>'+
+      '<span class="foto-stat" id="fs-o" style="color:var(--muted)">\u23F3 '+n+' open</span>'+
+      '</div>'+
+      '<div id="foto-sync" class="bk-sync"></div>';
     html+='<div class="foto-grid" id="fgrid">';
     for(var i=1;i<=n;i++){var nr=(i<10?'0':'')+i;
       html+='<div class="foto-card" data-i="'+i+'"><img src="/fotos/foto-'+nr+'.jpg" alt="Foto '+i+'" loading="lazy"><span class="foto-nr-badge">'+i+'</span><span class="foto-verdict-badge" id="fvb-'+i+'"></span></div>';}
@@ -347,7 +397,9 @@
       '</div>'+
     '</div>';
     el.innerHTML=html;
-    function getV(i){return localStorage.getItem(KEY(i,'v'));}
+
+    // --- Stats + cards ---
+    function getV(i){return localStorage.getItem('lw8_foto_'+(i<10?'0':'')+i+'_v');}
     function updStats(){var g=0,m=0,nee=0;
       for(var i=1;i<=n;i++){var v=getV(i);if(v==='goed')g++;else if(v==='matig')m++;else if(v==='nee')nee++;}
       document.getElementById('fs-g').textContent=BADGE.goed+' '+g;
@@ -358,23 +410,34 @@
       var card=document.querySelector('.foto-card[data-i="'+i+'"]');if(!card)return;
       var v=getV(i);card.className='foto-card'+(v?' v-'+v:'');card.dataset.i=i;
       var b=document.getElementById('fvb-'+i);if(b)b.textContent=v?BADGE[v]:'';}
+    function refreshLb(){
+      var v=getV(cur);
+      document.querySelectorAll('#fLbV button').forEach(function(b){b.classList.toggle('act',b.dataset.lv===v);});}
+
+    // --- Lightbox ---
     function openLb(i){
       cur=i;var nr=(i<10?'0':'')+i;
       document.getElementById('fLbImg').src='/fotos/foto-'+nr+'.jpg';
       document.getElementById('fLbNr').textContent='Foto '+i+' / '+n;
-      document.getElementById('fLbNote').value=localStorage.getItem(KEY(i,'nt'))||'';
-      var v=getV(i);
-      document.querySelectorAll('#fLbV button').forEach(function(b){b.classList.toggle('act',b.dataset.lv===v);});
+      document.getElementById('fLbNote').value=localStorage.getItem('lw8_foto_'+nr+'_nt')||'';
+      refreshLb();
       document.getElementById('fLb').classList.add('open');}
+
     document.querySelectorAll('.foto-card').forEach(function(card){
       var i=parseInt(card.dataset.i);updCard(i);
       card.addEventListener('click',function(){openLb(i);});});
+
     document.querySelectorAll('#fLbV button').forEach(function(btn){
       btn.addEventListener('click',function(){
-        var v=btn.dataset.lv;localStorage.setItem(KEY(cur,'v'),v);
+        var nr=(cur<10?'0':'')+cur;
+        var v=btn.dataset.lv;localStorage.setItem('lw8_foto_'+nr+'_v',v);
         document.querySelectorAll('#fLbV button').forEach(function(b){b.classList.toggle('act',b.dataset.lv===v);});
-        updCard(cur);updStats();});});
-    document.getElementById('fLbNote').addEventListener('input',function(){localStorage.setItem(KEY(cur,'nt'),this.value);});
+        updCard(cur);updStats();push();});});
+
+    document.getElementById('fLbNote').addEventListener('input',function(){
+      var nr=(cur<10?'0':'')+cur;
+      localStorage.setItem('lw8_foto_'+nr+'_nt',this.value);push();});
+
     function go(d){var ni=((cur-1+d+n)%n)+1;openLb(ni);}
     document.getElementById('fLbPrev').addEventListener('click',function(){go(-1);});
     document.getElementById('fLbNext').addEventListener('click',function(){go(1);});
@@ -386,7 +449,17 @@
       if(e.key==='Escape')lb.classList.remove('open');
       else if(e.key==='ArrowRight')go(1);
       else if(e.key==='ArrowLeft')go(-1);});
+
+    // --- Sync ---
     updStats();
+    if(syncOn){
+      setSync('\uD83D\uDD04 Sync aan \u2014 feedback wordt gedeeld.');
+      pull();
+      setInterval(pull,20000);
+      window.addEventListener('focus',pull);
+    } else {
+      setSync('Alleen op dit apparaat (geen sync).');
+    }
   }
 
   // Login flow
