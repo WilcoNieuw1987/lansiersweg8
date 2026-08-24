@@ -129,6 +129,29 @@
   .bk-ticket .acts button:hover{background:#faf7f0}
   .bk-empty{color:var(--muted);font-size:14px;padding:18px;text-align:center;border:1px dashed var(--line);border-radius:12px}
   .bk-sync{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+  /* Foto review */
+  .foto-stats{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 14px}
+  .foto-stat{font-size:14px;font-weight:600;color:var(--ink)}
+  .foto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+  .foto-card{background:var(--card);border:2px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:border-color .15s}
+  .foto-card.v-goed{border-color:#2c6a50}
+  .foto-card.v-matig{border-color:#c8a43c}
+  .foto-card.v-nee{border-color:#c8643c}
+  .foto-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;cursor:zoom-in}
+  .fc-body{padding:10px 12px}
+  .fc-nr{font-size:12px;color:var(--muted);margin-bottom:7px}
+  .fc-btns{display:flex;gap:6px;margin-bottom:8px}
+  .fc-btns button{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;font-size:17px;padding:5px 4px;cursor:pointer;opacity:.45;transition:.1s}
+  .fc-btns button:hover{opacity:.75}
+  .fc-btns button.act{opacity:1;background:#eef4ef;border-color:#2c6a50}
+  .fc-btns button.act.nee{background:#fdf1ec;border-color:#c8643c}
+  .fc-btns button.act.matig{background:#fdf8ec;border-color:#c8a43c}
+  .fc-note{width:100%;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px;padding:7px 9px;resize:vertical;min-height:50px;box-sizing:border-box}
+  .foto-lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;align-items:center;justify-content:center;cursor:zoom-out}
+  .foto-lb.open{display:flex}
+  .foto-lb img{max-width:95vw;max-height:90vh;object-fit:contain;border-radius:8px;cursor:default}
+  .foto-lb-close{position:absolute;top:14px;right:18px;color:#fff;font-size:30px;cursor:pointer;background:none;border:0;line-height:1}
+  @media(max-width:480px){.foto-grid{grid-template-columns:repeat(2,1fr)}}
   footer{padding:28px 0 50px;color:var(--muted);font-size:13px;text-align:center;border-top:1px solid var(--line);margin-top:22px}
   .logout{background:none;border:1px solid var(--line);border-radius:8px;padding:5px 12px;color:var(--muted);font:inherit;font-size:12.5px;cursor:pointer;margin-top:10px}
 </style>
@@ -195,6 +218,7 @@
     // Charts
     try{renderCharts();}catch(e){}
     try{initBacklog();}catch(e){}
+    try{initFotoReview();}catch(e){}
   }
 
   function renderCharts(){
@@ -281,6 +305,50 @@
       setInterval(pullRemote,20000);
       window.addEventListener('focus',pullRemote);
     } else { setSync('Alleen op dit apparaat (geen sync ingesteld).'); }
+  }
+
+  function initFotoReview(){
+    var el=document.getElementById('fotoGrid');if(!el)return;
+    var fdEl=document.getElementById('fotodata');
+    var fd=fdEl?JSON.parse(fdEl.textContent):{count:54};
+    var n=fd.count||54;
+    var KEY=function(nr,t){return 'lw8_foto_'+nr+'_'+t;};
+    var html='<div class="foto-stats"><span class="foto-stat" id="fs-goed">👍 0</span><span class="foto-stat" id="fs-matig">😐 0</span><span class="foto-stat" id="fs-nee">👎 0</span><span class="foto-stat" id="fs-open" style="color:var(--muted)">⏳ '+n+' open</span></div>';
+    html+='<div class="foto-grid" id="fgrid">';
+    for(var i=1;i<=n;i++){var nr=(i<10?'0':'')+i;
+      html+='<div class="foto-card" data-n="'+nr+'"><img src="/fotos/foto-'+nr+'.jpg" alt="Foto '+i+'" loading="lazy">'+
+        '<div class="fc-body"><div class="fc-nr">Foto '+i+' / '+n+'</div>'+
+        '<div class="fc-btns"><button data-v="goed">👍</button><button data-v="matig">😐</button><button data-v="nee" class="nee">👎</button></div>'+
+        '<textarea class="fc-note" placeholder="Notitie…"></textarea></div></div>';}
+    html+='</div><div class="foto-lb" id="fotoLb"><button class="foto-lb-close" id="fotoLbClose">✕</button><img id="fotoLbImg" src="" alt=""></div>';
+    el.innerHTML=html;
+    function updStats(){var g=0,m=0,nee=0;
+      for(var i=1;i<=n;i++){var v=localStorage.getItem(KEY((i<10?'0':'')+i,'v'));if(v==='goed')g++;else if(v==='matig')m++;else if(v==='nee')nee++;}
+      document.getElementById('fs-goed').textContent='👍 '+g;
+      document.getElementById('fs-matig').textContent='😐 '+m;
+      document.getElementById('fs-nee').textContent='👎 '+nee;
+      document.getElementById('fs-open').textContent='⏳ '+(n-g-m-nee)+' open';}
+    document.querySelectorAll('.foto-card').forEach(function(card){
+      var nr=card.dataset.n;
+      var v=localStorage.getItem(KEY(nr,'v'));
+      var note=localStorage.getItem(KEY(nr,'nt'));
+      if(v){card.classList.add('v-'+v);var b=card.querySelector('[data-v="'+v+'"]');if(b)b.classList.add('act');}
+      var ta=card.querySelector('.fc-note');if(ta&&note)ta.value=note;
+      card.querySelectorAll('.fc-btns button').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          card.querySelectorAll('.fc-btns button').forEach(function(b){b.classList.remove('act');});
+          card.classList.remove('v-goed','v-matig','v-nee');
+          btn.classList.add('act');card.classList.add('v-'+btn.dataset.v);
+          localStorage.setItem(KEY(nr,'v'),btn.dataset.v);updStats();});});
+      if(ta)ta.addEventListener('input',function(){localStorage.setItem(KEY(nr,'nt'),ta.value);});
+      var img=card.querySelector('img');
+      if(img)img.addEventListener('click',function(){document.getElementById('fotoLbImg').src=img.src;document.getElementById('fotoLb').classList.add('open');});
+    });
+    var lb=document.getElementById('fotoLb');
+    document.getElementById('fotoLbClose').addEventListener('click',function(){lb.classList.remove('open');});
+    lb.addEventListener('click',function(e){if(e.target===lb)lb.classList.remove('open');});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open');});
+    updStats();
   }
 
   // Login flow
