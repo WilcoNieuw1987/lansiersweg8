@@ -493,12 +493,16 @@
       else if(e.key==='ArrowRight')go(1);
       else if(e.key==='ArrowLeft')go(-1);});
 
+    // --- Export knop ---
+    var expBtn=document.getElementById('btnExportFotos');
+    if(expBtn)expBtn.addEventListener('click',exportFotoFeedback);
+
     // --- Sync ---
     updStats();
     if(syncOn){
       setSync('\uD83D\uDD04 Sync aan \u2014 feedback wordt gedeeld.');
       pull();
-      setInterval(pull,20000);
+      setInterval(pull,60000);
       window.addEventListener('focus',pull);
     } else {
       setSync('Alleen op dit apparaat (geen sync).');
